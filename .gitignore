@@ -5,6 +5,12 @@
 /backend/*.ear
 /backend/.mvn/
 
+# Ignore frontend build artifacts
+/frontend/node_modules
+/frontend/dist
+/frontend/dist-ssr
+/frontend/*.local
+
 # Ignore IDE configurations
 .idea/
 *.iml
