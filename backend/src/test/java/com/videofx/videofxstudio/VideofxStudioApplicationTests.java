@@ -1,10 +1,10 @@
-package om.videofx.videofx_backend;
+package com.videofx.videofxstudio;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class VideoFxStudioBackendApplicationTests {
+class VideofxStudioApplicationTests {
 
 	@Test
 	void contextLoads() {
