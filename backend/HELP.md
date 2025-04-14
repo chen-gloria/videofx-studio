@@ -1,8 +1,6 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'com.videofx.videofxstudio' is invalid and this project uses 'com.videofx.videofx_studio' instead.
-
 # Getting Started
 
 ### Reference Documentation
