@@ -41,7 +41,7 @@ frontend/.env
 
 # Ignore Docker files if you have them (optional)
 *.dockerignore
-docker-compose.yml
+# docker-compose.yml
 
 # Misc
 *.swp
