@@ -34,8 +34,20 @@ public class VideoController {
 
         try {
             // Store file to local
-            String uploadDir = new File(System.getProperty("user.dir"), "uploads").getAbsolutePath();
-            logger.info("Upload dir: " + uploadDir);
+            String uploadDirPath = new File(System.getProperty("user.dir"), "uploads").getAbsolutePath();
+            File uploadDir = new File(uploadDirPath);
+            
+            // If the "uploads" folder doesn't exist, create it
+            if (!uploadDir.exists()) {
+                boolean created = uploadDir.mkdirs();
+                if (created) {
+                    logger.info("Uploads directory created at: " + uploadDirPath);
+                } else {
+                    logger.warning("Failed to create uploads directory at: " + uploadDirPath);
+                }
+            } else {
+                logger.info("Uploads directory already exists at: " + uploadDirPath);
+            }
 
             File destinationFile = new File(uploadDir, file.getOriginalFilename());
 
