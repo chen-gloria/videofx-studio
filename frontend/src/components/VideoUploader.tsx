@@ -64,6 +64,8 @@ const VideoUploader = () => {
           <video
             src={URL.createObjectURL(file)}
             controls
+            width="640" 
+            height="360"
             className="mt-2 w-full rounded-md"
             />
           <p>Selected File: {file.name}</p>
