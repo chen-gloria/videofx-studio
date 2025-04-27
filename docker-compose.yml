@@ -2,9 +2,10 @@ version: '3.8'
 
 services:
   backend:
+    container_name: backend
     build:
-      context: ./backend  # Path to your backend Dockerfile 
-      dockerfile: Dockerfile.dev
+      context: ./backend
+      dockerfile: Dockerfile
     volumes:
       - ./backend:/app  # Mount local backend code into container
     ports:
@@ -23,18 +24,21 @@ services:
       - app-network
 
   frontend:
-    image: node:20  # use Node image to run React
     container_name: frontend
-    working_dir: /app
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     volumes:
       - ./frontend:/app  # Mount local frontend code
+      - /app/node_modules  # Prevent mounting the local node_modules
+    environment:
+      - NODE_ENV=development
     ports:
-      - "3000:3000"  # React dev server
-    command: sh -c "npm install && npm run dev"
-    networks:
-      - app-network
+      - "3000:3000"
     depends_on:
       - backend
+    networks:
+      - app-network
 
   redis:
     image: redis:latest

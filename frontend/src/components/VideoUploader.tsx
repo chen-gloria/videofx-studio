@@ -1,84 +1,78 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import { useDropzone } from "react-dropzone";
-import { motion } from "framer-motion";  // For smooth animations
 
 const VideoUploader = () => {
   const [file, setFile] = useState<File | null>(null);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadStatus, setUploadStatus] = useState("");
 
-  // Dropzone handler for file selection
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: "video/*",  // Accept only video files
-    onDrop: (acceptedFiles) => {
-      setFile(acceptedFiles[0]);
-    }
-  });
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  // Handle file upload
-  const handleUpload = async () => {
-    if (!file) return;
+  const handleOpenFileDialog = () => {
+    inputRef.current?.click();
+  };
 
-    const formData = new FormData();
-    formData.append("file", file);
-
-    try {
-      setUploadStatus("Uploading...");
-      const response = await axios.post(
-        "http://localhost:8080/api/videos/upload",  // Backend endpoint
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          },
-          onUploadProgress: (progressEvent: any) => {
-            const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            setUploadProgress(progress);
-          }
-        }
-      );
-
-      setUploadStatus(`Upload complete: ${response.data}`);
-    } catch (error) {
-      setUploadStatus("Upload failed. Try again.");
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setFile(selectedFile);
+      handleUpload(selectedFile);
     }
   };
 
+  const handleUpload = async (selectedFile: File) => {
+      const formData = new FormData();
+      formData.append("file", selectedFile);
+      
+      console.log(selectedFile);
+
+      try {
+          setUploadStatus("Uploading...");
+          const response = await axios.post("/api/videos/upload", formData, {
+                  headers: {
+                      "Content-Type": "multipart/form-data",  // Make sure to set this header for file upload
+                  }
+              }
+          );
+          setUploadStatus(`Upload complete: ${response.data}`);
+      } catch (error) {
+          console.error("Error:", error);
+          setUploadStatus("Upload failed. Try again." + error);
+      }
+  };
+
+
   return (
     <div className="flex flex-col items-center justify-center p-4 space-y-4">
-      <div
-        {...getRootProps()}
-        className="border-2 border-dashed p-4 rounded-md w-full max-w-md text-center"
-      >
-        <input {...getInputProps()} />
-        <p>Drag & Drop your video here, or click to select</p>
-      </div>
-
+      {/* 文件选择后预览 */}
       {file && (
-        <div className="mt-2">
+        <div className="mt-4 w-full max-w-md">
+          <video
+            src={URL.createObjectURL(file)}
+            controls
+            className="mt-2 w-full rounded-md"
+            />
           <p>Selected File: {file.name}</p>
         </div>
       )}
 
-      {uploadProgress > 0 && (
-        <motion.div
-          className="w-full bg-gray-300 h-2 rounded-md mt-4"
-          style={{ width: `${uploadProgress}%` }}
-          initial={{ width: 0 }}
-          animate={{ width: `${uploadProgress}%` }}
-          transition={{ duration: 0.5 }}
-        ></motion.div>
-      )}
-
       <button
-        onClick={handleUpload}
-        className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md"
+        onClick={handleOpenFileDialog}
+        className="bg-blue-500 text-white py-2 px-4 rounded-md"
       >
-        Upload Video
+        Select and Upload Video
       </button>
 
+      {/* 上传状态 */}
       {uploadStatus && <p className="mt-2">{uploadStatus}</p>}
+
+      {/* 隐藏的 input 文件选择 */}
+      <input
+        type="file"
+        ref={inputRef}
+        onChange={handleFileChange}
+        style={{ display: "none" }}  // 不显示在页面上
+        accept="video/*"  // 仅允许视频文件
+      />
     </div>
   );
 };

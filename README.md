@@ -60,3 +60,9 @@ This will:
 - Frontend code changes will hot reload automatically via Vite.
 
 - Backend code changes will auto-restart thanks to spring-boot-devtools.
+
+### 4. Stopping the App
+
+```bash
+docker compose down
+```
