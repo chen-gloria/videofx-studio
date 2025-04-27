@@ -6,10 +6,10 @@ VideoFX Studio is a video compositing and export web application powered by WASM
 
 <div align="center">
 
-<img src="demo/1.png" alt="Homepage" width="1200" height="800" />
+<img src="demo/1.png" alt="Homepage" />
 Home page
 
-<img src="demo/2.png" alt="Video preview" width="1200" height="800" />
+<img src="demo/2.png" alt="Video preview" />
 
 Preview video
 
