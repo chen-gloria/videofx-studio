@@ -24,3 +24,45 @@ VideoFX Studio is a video compositing and export web application powered by WASM
 4. Video Editing Logic: Implements **AI-based** video editing features like auto-transitions and subtitle generation, with room for expansion into more advanced editing logic using **Rust/C++ and WASM**.
 
 
+# How to run
+
+This project uses Docker Compose to run the full-stack app (backend + frontend + Redis) for development.
+
+## Project structure
+```bash
+/backend      # Java Spring Boot application
+/frontend     # ReactJS frontend (using Vite)
+docker-compose.yml
+```
+
+## Running the App
+
+### 1. Start All Services
+```bash
+docker compose up
+```
+
+This will:
+
+- Build and run the backend (Java Spring Boot) on http://localhost:8080
+- Run the frontend (React + Vite dev server) on http://localhost:3000
+- Start a Redis server on localhost:6379
+
+### 2. Access the App
+
+| Service | URL |
+| ------ | ------ |
+| Frontend | http://localhost:3000 |
+| Backend | http://localhost:8080 | 
+| Redis | localhost:6379 (internal access) |
+
+### 3. Development Notes
+- Frontend code changes will hot reload automatically via Vite.
+
+- Backend code changes will auto-restart thanks to spring-boot-devtools.
+
+### 4. Stopping the App
+
+```bash
+docker compose down
+```
