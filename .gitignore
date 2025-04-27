@@ -4,6 +4,7 @@
 /backend/*.war
 /backend/*.ear
 /backend/.mvn/
+/backend/uploads
 
 # Ignore frontend build artifacts
 /frontend/node_modules

@@ -6,7 +6,7 @@ VideoFX Studio is a video compositing and export web application powered by WASM
 
 | **Feature** | **Description** | **Tech Stack** |
 |-------------|-----------------|----------------|
-| **Frontend Upload Interface** | Drag-and-drop or select video file upload. Preview display, status indicator, and upload progress bar. | React + TypeScript + Tailwind CSS<br>Libraries: `react-dropzone`, `shadcn/ui`, `framer-motion` |
+| **Frontend Upload Interface** | Drag-and-drop or select video file upload. Preview display, and status indicator. | React + TypeScript + Tailwind CSS<br>Libraries: `react-dropzone`, `shadcn/ui`, `framer-motion` |
 | **Backend Task Coordination Service** | Handles the entire video pipeline: upload, analysis, editing, and preview download. Manages asynchronous tasks, status polling, result storage, and CDN link management. | Java (Spring Boot), Redis (task queue), PostgreSQL (task metadata) |
 | **AI Editing Logic** | Automates video processing, including:<br>- Removing silent segments<br>- Rhythm-based cutting<br>- Auto-transitions<br>- Subtitle generation using Whisper | Python (MoviePy, FFmpeg, Whisper)<br>Future Expansion: Rust/C++ + WASM for enhanced video editing and subtitle rendering. |
 | **Platform Ratio Auto-Adapting and Export** | Automatically adapts videos for different platforms (e.g., TikTok, Bilibili, Instagram). Outputs various resolutions (e.g., 9:16, 1:1). Exports videos to cloud storage (e.g., Cloudflare R2, S3-compatible) with CDN support. | FFmpeg, custom export logic |
