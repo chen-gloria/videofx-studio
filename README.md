@@ -2,6 +2,20 @@
 
 VideoFX Studio is a video compositing and export web application powered by WASM. It allows users to upload, process, and export videos using a backend built with Spring Boot and provides a RESTful API for video-related operations. The application is built with an emphasis on performance, scalability, and a seamless user experience across web and mobile platforms, making it a great fit for video compositing.
 
+# Demo
+
+<div align="center">
+
+<img src="demo/1.png" alt="Homepage" width="1200" height="800" />
+Home page
+
+<img src="demo/2.png" alt="Video preview" width="1200" height="800" />
+
+Preview video
+
+</div>
+
+
 # MVP Features
 
 | **Feature** | **Description** | **Tech Stack** |
