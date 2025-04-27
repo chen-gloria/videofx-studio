@@ -55,12 +55,12 @@ public class VideoController {
 
             logger.info("File stored to local.");
 
-            // 生成唯一任务 ID
+            // Generate unique task ID
             String taskId = UUID.randomUUID().toString();
 
             logger.info("Generated UUID." + taskId);
     
-            // 将任务添加到 Redis 队列
+            // Add task to Redis queue
             videoProcessingService.addTaskToQueue(taskId, destinationFile.getAbsolutePath());
     
             logger.info("File successfully uploaded and task added to queue: " + destinationFile.getAbsolutePath());
