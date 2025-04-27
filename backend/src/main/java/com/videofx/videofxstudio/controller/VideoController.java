@@ -16,19 +16,13 @@ public class VideoController {
 
     private static final Logger logger = Logger.getLogger(VideoController.class.getName()); // Using java.util.logging.Logger
 
-    @PostMapping("/hello")
-    public ResponseEntity<String> sayHello(@RequestBody String name) {
-        System.out.println("Received name: " + name);
-        return ResponseEntity.ok("Hello, " + name + "!");
-    }
-
     @PostMapping("/upload")
     public ResponseEntity<String> uploadVideo(@RequestParam("file") MultipartFile file) {
         logger.info("Received file: " + file.getOriginalFilename());
 
         if (file.isEmpty()) {
             logger.warning("No file uploaded.");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No file uploaded.");
+            return ResponseEntity.badRequest().body("Please select a file");
         }
 
         try {
@@ -39,7 +33,6 @@ public class VideoController {
 
             logger.info("File successfully uploaded to: " + destinationFile.getAbsolutePath());
             return ResponseEntity.ok("File uploaded successfully: " + file.getOriginalFilename());
-
         } catch (IOException e) {
             logger.severe("Error during file upload: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error uploading the file.");

@@ -20,30 +20,45 @@ const VideoUploader = () => {
   };
 
   const handleUpload = async (selectedFile: File) => {
-      const formData = new FormData();
-      formData.append("file", selectedFile);
-      
-      console.log(selectedFile);
+    if (!selectedFile) {
+      setUploadStatus("No file selected");
+      return;
+    }
 
-      try {
-          setUploadStatus("Uploading...");
-          const response = await axios.post("/api/videos/upload", formData, {
-                  headers: {
-                      "Content-Type": "multipart/form-data",  // Make sure to set this header for file upload
-                  }
-              }
-          );
-          setUploadStatus(`Upload complete: ${response.data}`);
-      } catch (error) {
-          console.error("Error:", error);
-          setUploadStatus("Upload failed. Try again." + error);
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+    
+    console.log(formData.getAll);
+
+    try {
+        setUploadStatus("Uploading...");
+        const response = await axios.post("/api/videos/upload", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data"
+            }
+          }
+        );
+        setUploadStatus(`Upload complete: ${response.data}`);
+    } catch (error) {
+      let errorMessage = "Upload failed";
+    
+      if (axios.isAxiosError(error)) {
+        if (error.code === "ERR_NETWORK") {
+          errorMessage = "Cannot connect to server";
+        } else if (error.response) {
+          // Handle HTTP errors
+          errorMessage = error.response.data?.message || 
+            `Server error: ${error.response.status}`;
+        }
       }
+      
+      setUploadStatus(errorMessage);
+      console.error("Upload error:", error);
+    }
   };
-
 
   return (
     <div className="flex flex-col items-center justify-center p-4 space-y-4">
-      {/* 文件选择后预览 */}
       {file && (
         <div className="mt-4 w-full max-w-md">
           <video
@@ -62,16 +77,14 @@ const VideoUploader = () => {
         Select and Upload Video
       </button>
 
-      {/* 上传状态 */}
       {uploadStatus && <p className="mt-2">{uploadStatus}</p>}
 
-      {/* 隐藏的 input 文件选择 */}
       <input
         type="file"
         ref={inputRef}
         onChange={handleFileChange}
-        style={{ display: "none" }}  // 不显示在页面上
-        accept="video/*"  // 仅允许视频文件
+        style={{ display: "none" }}
+        accept="video/*"
       />
     </div>
   );
