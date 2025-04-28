@@ -24,12 +24,12 @@ public class VideoProcessingService {
     private static final String TASK_QUEUE_KEY = "video-processing-queue";  // Redis Queue for tasks
     private static final String TASK_STATUS_KEY = "video-task-status:";  // Redis Task Status
 
-    // 添加任务到 Redis 队列
+    // Add task to Redis queue
     public void addTaskToQueue(String taskId, String videoPath) {
-        // 将任务 ID 和视频路径存入 Redis 队列
+        // Store task ID and video path in Redis queue
         redisTemplate.opsForList().leftPush(TASK_QUEUE_KEY, taskId);
 
-        // 存储任务的状态和路径
+        // Store task status and path
         redisTemplate.opsForHash().put("task:" + taskId, "status", "queued");
         redisTemplate.opsForHash().put("task:" + taskId, "videoPath", videoPath);
     }
